@@ -16,6 +16,7 @@ namespace CPE200Lab1
         private bool isAllowBack;
         private bool isAfterOperater;
         private bool isAfterEqual;
+        private bool isfirstOperater;
         private string firstOperand;
         private string operate;
 
@@ -26,6 +27,8 @@ namespace CPE200Lab1
             hasDot = false;
             isAfterOperater = false;
             isAfterEqual = false;
+            isfirstOperater = true;
+
         }
 
         private string calculate(string operate, string firstOperand, string secondOperand, int maxOutputSize = 8)
@@ -113,6 +116,23 @@ namespace CPE200Lab1
                 return;
             }
             operate = ((Button)sender).Text;
+            if (!isfirstOperater)
+            {
+                if (lblDisplay.Text is "Error")
+                {
+                    return;
+                }
+                string secondOperand = lblDisplay.Text;
+                string result = calculate(operate, firstOperand, secondOperand);
+                if (result is "E" || result.Length > 8)
+                {
+                    lblDisplay.Text = "Error";
+                }
+                else
+                {
+                    lblDisplay.Text = result;
+                }
+            }
             switch (operate)
             {
                 case "+":
@@ -127,6 +147,7 @@ namespace CPE200Lab1
                     break;
             }
             isAllowBack = false;
+            isfirstOperater = false;
         }
 
         private void btnEqual_Click(object sender, EventArgs e)
@@ -146,6 +167,7 @@ namespace CPE200Lab1
                 lblDisplay.Text = result;
             }
             isAfterEqual = true;
+            isfirstOperater = true;
         }
 
         private void btnDot_Click(object sender, EventArgs e)
