@@ -120,23 +120,6 @@ namespace CPE200Lab1
                 }
             }
             operate = ((Button)sender).Text;
-            if (!isfirstOperater)
-            {
-                if (lblDisplay.Text is "Error")
-                {
-                    return;
-                }
-                string secondOperand = lblDisplay.Text;
-                string result = calculate(operate, firstOperand, secondOperand);
-                if (result is "E" || result.Length > 8)
-                {
-                    lblDisplay.Text = "Error";
-                }
-                else
-                {
-                    lblDisplay.Text = result;
-                }
-            }
             switch (operate)
             {
                 case "+":
