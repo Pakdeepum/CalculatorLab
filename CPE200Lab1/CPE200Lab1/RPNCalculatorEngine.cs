@@ -13,9 +13,10 @@ namespace CPE200Lab1
             if (str == null || str == "") return "E";
             Stack<string> rpnStack = new Stack<string>();
             List<string> parts = str.Split(' ').ToList<string>();
+            Stack<string> stackCheck = new Stack<string>();
             string result;
-            double Numcount=0;
-            double opercount=0;
+            int Numcount=0;
+            int opercount=0;
             string firstOperand, secondOperand;
             foreach (string token in parts)
             {
@@ -23,39 +24,50 @@ namespace CPE200Lab1
                 {
                     Numcount++;
                 }
-                if (isOperator(token))
+                else if (isOperator(token))
                 {
                     opercount++;
-                }
-
-                if (opercount < 0||Numcount <= 0|| opercount>=Numcount)
-                {
-                    return "E";
                 }
             }
             foreach (string token in parts)
             {
-                if (isNumber(token))
+                if (Numcount == 1 && opercount == 0)
                 {
+                    return token;
+                }
+                else if (opercount < 1 || Numcount <= 0 || opercount >= Numcount || opercount < (Numcount - 1)||parts[0]=="+")
+                {
+                    return "E";
+                }
+                else if (!isNumber(token) && !isOperator(token))
+                {
+                    stackCheck.Push(token);
+                }
+                else if (isNumber(token))
+                {
+                   
                     rpnStack.Push(token);
                 }
                 else if (isOperator(token))
                 {
-                    
                     //FIXME, what if there is only one left in stack?
-                    if(rpnStack == null)
+                    if (rpnStack == null)
                     {
                         return "E";
                     }
+
                     secondOperand = rpnStack.Pop();
                     firstOperand = rpnStack.Pop();
                     result = calculate(token, firstOperand, secondOperand, 6);
+                    if (stackCheck.Count() != 0) return "E";
+
                     if (result is "E")
                     {
                         return result;
                     }
                     rpnStack.Push(result);
                 }
+                
             }
             //FIXME, what if there is more than one, or zero, items in the stack?
             result = rpnStack.Pop();
