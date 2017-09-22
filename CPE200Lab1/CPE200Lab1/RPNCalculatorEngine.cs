@@ -31,7 +31,7 @@ namespace CPE200Lab1
             }
             foreach (string token in parts)
             {
-                if (Numcount == 1 && opercount == 0)
+                if (token == "0" && Numcount==1)
                 {
                     return token;
                 }
@@ -67,7 +67,8 @@ namespace CPE200Lab1
                     }
                     rpnStack.Push(result);
                 }
-                
+                else if (token != "") return "E";
+
             }
             //FIXME, what if there is more than one, or zero, items in the stack?
             result = rpnStack.Pop();
